@@ -6,7 +6,7 @@
 /*   By: myerrou <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 15:50:34 by myerrou           #+#    #+#             */
-/*   Updated: 2023/12/03 20:59:15 by myerrou          ###   ########.fr       */
+/*   Updated: 2023/12/08 15:24:27 by myerrou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,31 @@ int	ft_putstr(char *str)
 	return (write(1, str, ft_strlen(str)));
 }
 
-int	ft_putnbr(int num)
+int	ft_putnbr(int nb)
 {
-	char	*numb;
-	int		len;
+	int	count;
 
-	len = 0;
-	numb = (char *)ft_itoa(num);
-	len += ft_putstr(numb);
-	free(numb);
-	return (len);
+	count = 0;
+	if (nb == -2147483648)
+	{
+		count += ft_putchar('-');
+		count += ft_putchar('2');
+		count += ft_putnbr(147483648);
+	}
+	else if (nb < 0)
+	{
+		nb = -nb;
+		count += ft_putchar('-');
+		count += ft_putnbr(nb);
+	}
+	else if (nb > 9)
+	{
+		count += ft_putnbr(nb / 10);
+		count += ft_putnbr(nb % 10);
+	}
+	else
+		count += ft_putchar(nb + 48);
+	return (count);
 }
 
 int	ft_print_p(unsigned long pass)
